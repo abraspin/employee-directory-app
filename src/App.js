@@ -23,7 +23,7 @@ function App() {
         <HeaderBar title="Employee Directory" icon="fas fa-user"></HeaderBar>
       </header>
       <section>
-        <table className="table table-striped">
+        <table className="table table-striped table-bordered text-center ">
           <thead>
             <tr>
               <th scope="col">User</th>
@@ -39,7 +39,7 @@ function App() {
                   name={user.name.first + " " + user.name.last}
                   email={user.email}
                   phone={user.phone}
-                  picture={user.picture.thumbnail}
+                  picture={user.picture.medium}
                 />
               );
             })}
