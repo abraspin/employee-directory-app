@@ -23,16 +23,28 @@ function App() {
         <HeaderBar title="Employee Directory" icon="fas fa-user"></HeaderBar>
       </header>
       <section>
-        {userList.map((user) => {
-          return (
-            <UserCard
-              name={user.name.first + " " + user.name.last}
-              email={user.email}
-              phone={user.phone}
-              picture={user.picture.thumbnail}
-            />
-          );
-        })}
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList.map((user) => {
+              return (
+                <UserCard
+                  name={user.name.first + " " + user.name.last}
+                  email={user.email}
+                  phone={user.phone}
+                  picture={user.picture.thumbnail}
+                />
+              );
+            })}
+          </tbody>
+        </table>
       </section>
     </div>
   );
