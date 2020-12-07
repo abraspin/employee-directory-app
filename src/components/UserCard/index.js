@@ -1,11 +1,11 @@
 import React from "react";
-import "./style.css";
+// import "./style.css";
 
 function UserCard(props) {
   const { name, email, phone, picture } = props;
   return (
     <tr>
-      <td scope="row">
+      <td>
         <img src={picture} alt={name} />
       </td>
       <td>{name}</td>
