@@ -1,10 +1,9 @@
 import React from "react";
-// import "./style.css";
+import "./style.css";
 
 function HeaderBar({ title, icon }) {
   return (
-    <div className="App-header">
-      {/* <div className="container"> */}
+    <div>
       <div className="row bg-dark  ">
         <h1 className="mx-auto text-light">
           {" "}
@@ -14,7 +13,6 @@ function HeaderBar({ title, icon }) {
             <i className={icon} />
           </span>
         </h1>
-        {/* </div> */}
       </div>
     </div>
   );
