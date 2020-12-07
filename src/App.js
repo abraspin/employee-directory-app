@@ -18,23 +18,37 @@ function App() {
     event.preventDefault();
     setSearchTerm(event.target.value);
   }
+
+  //FIXME: this is an attempt at adding the mdbootstrap table functionality, it's in index.html ATM
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+
+  //   script.src = "https://use.typekit.net/foobar.js";
+  //   script.async = true;
+
+  //   document.body.appendChild(script);
+
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
+
+  //   document.getElementById("dtBasicExample").DataTable();
+  //   document.getElementsByClassName("dataTables_length").addClass("bs-select");
+
   useEffect(() => {
-    API.getUsers(10).then((res) => {
+    API.getUsers(20).then((res) => {
       setUserList(res.data.results);
     });
   }, []);
 
-  // console.log(userList);
+  // TODO: Should this be wrapped in a useEffect with Observe[searchTerm] ?
   if (searchTerm) {
-    // console.log(userList);
-
+    //TODO: pretty sure this is all trash
     // const userListCopy = [...userList];
     // const filteredUserList = userListCopy.filter((user) => {
     //   // const userFullName = user.name.first + " " + user.name.last;
-    //   // console.log(userFullName.toLowerCase().includes(searchTerm.toLowerCase()));
     //   (user.name.first + " " + user.name.last).toLowerCase().includes(searchTerm.toLowerCase());
-    //   // console.log("🚀 ~ file: App.js ~ line 33 ~ searchFilteredUserList ~ searchTerm", searchTerm);
-    //   // console.log("🚀 ~ file: App.js ~ line 33 ~ searchFilteredUserList ~ userFullName", userFullName);
     // });
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -71,16 +85,44 @@ function App() {
         </div>
       </header>
       <section>
+        {/* ////////////////////line below for userList component homemade/////////////////////////// */}
         <UserTable userList={userList}></UserTable>
-        {/* <table id="user-data-table" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+        {/* ////////////////////block below for MDBootstrap sortable table with userList/////////////////////////// */}
+        {/* <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellSpacing="0" width="100%">
           <thead>
             <tr>
-              <th class="th-sm">Name</th>
-              <th class="th-sm">Position</th>
-              <th class="th-sm">Office</th>
-              <th class="th-sm">Age</th>
-              <th class="th-sm">Start date</th>
-              <th class="th-sm">Salary</th>
+              <th className="th-sm">User</th>
+              <th className="th-sm">Name</th>
+              <th className="th-sm">Email</th>
+              <th className="th-sm">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList.map((user) => {
+              return (
+                <tr>
+                  <td>
+                    <img src={user.picture.medium} alt={user.name.first + " " + user.name.last} />
+                  </td>
+                  <td>{user.name.first + " " + user.name.last}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table> */}
+        {/* ////////////////////block above for MDBootstrap sortable table with userList/////////////////////////// */}
+        {/* //////////////////////////////////////////block below MDBootstrap sortable table ///////////////////////////////////////////////////////////////// */}
+        {/* <table id="dtBasicExample" className="table table-striped table-bordered table-sm" cellSpacing="0" width="100%">
+          <thead>
+            <tr>
+              <th className="th-sm">Name</th>
+              <th className="th-sm">Position</th>
+              <th className="th-sm">Office</th>
+              <th className="th-sm">Age</th>
+              <th className="th-sm">Start date</th>
+              <th className="th-sm">Salary</th>
             </tr>
           </thead>
           <tbody>
@@ -102,6 +144,7 @@ function App() {
             </tr>
           </tbody>
         </table> */}
+        {/* ////////////////////block above for MDBootstrap sortable table/////////////////////////// */}
       </section>
     </div>
   );
@@ -109,7 +152,7 @@ function App() {
 
 export default App;
 
-// removed from line 26 section element, to be component
+////////// removed table from  section element, to be component
 // <table className="table table-striped table-bordered text-center ">
 // <thead>
 //   <tr>
