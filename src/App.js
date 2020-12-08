@@ -10,13 +10,30 @@ import SearchBox from "./components/SearchBox/";
 
 function App() {
   const [userList, setUserList] = useState([]);
-  const [sortBy, setSortBy] = useState();
+  const [employeeDirectory, setEmployeeDirectory] = useState();
+
+  // moving this to userTable comp
   const [searchTerm, setSearchTerm] = useState();
 
   // $(".searchBox").value = "";
-  function searchHandler(event) {
-    event.preventDefault();
-    setSearchTerm(event.target.value);
+  function searchHandler(searchTerm) {
+    console.log("🚀 ~ file: App.js ~ line 18 ~ App ~ searchTerm", searchTerm);
+    // event.preventDefault();
+    setSearchTerm(searchTerm);
+    // trying something crazy...(global...constant...??)
+    setUserList(employeeDirectory);
+    // let employeeDataSomething = [];
+    if (!searchTerm) {
+      setUserList(employeeDirectory);
+    } else {
+      let employeeDataSomething = [];
+      for (let i = 0; i < userList.length; i++) {
+        if (userList[i].name.indexOf(searchTerm) > -1) {
+          employeeDataSomething.push(userList[i]);
+        }
+      }
+      setUserList(employeeDataSomething);
+    }
   }
 
   //FIXME: this is an attempt at adding the mdbootstrap table functionality, it's in index.html ATM
@@ -38,41 +55,55 @@ function App() {
 
   useEffect(() => {
     API.getUsers(20).then((res) => {
-      setUserList(res.data.results);
+      //manipulate fields here maybe
+      // JSON object - name, email,. dob, then concatenate firstName lastName
+      let employeesArray = [];
+      for (let i = 0; i < res.data.results.length; i++) {
+        let employee = {
+          name: res.data.results[i].name.first + " " + res.data.results[i].name.last,
+          email: res.data.results[i].email,
+          phone: res.data.results[i].phone,
+          picture: res.data.results[i].picture.medium,
+        };
+        employeesArray.push(employee);
+      }
+      setUserList(employeesArray);
+      setEmployeeDirectory(employeesArray);
     });
   }, []);
 
   // TODO: Should this be wrapped in a useEffect with Observe[searchTerm] ?
-  if (searchTerm) {
-    //TODO: pretty sure this is all trash
-    // const userListCopy = [...userList];
-    // const filteredUserList = userListCopy.filter((user) => {
-    //   // const userFullName = user.name.first + " " + user.name.last;
-    //   (user.name.first + " " + user.name.last).toLowerCase().includes(searchTerm.toLowerCase());
-    // });
+  // if (searchTerm) {
+  //   //TODO: pretty sure this is all trash
+  //   // const userListCopy = [...userList];
+  //   // const filteredUserList = userListCopy.filter((user) => {
+  //   //   // const userFullName = user.name.first + " " + user.name.last;
+  //   //   (user.name.first + " " + user.name.last).toLowerCase().includes(searchTerm.toLowerCase());
+  //   // });
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
+  //   ///////////////////////////////////////////////////////////////////////////////////////////
 
-    // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
-    const filteredUserList = [];
-    userList.forEach((user) => {
-      const userFullName = user.name.first + user.name.last;
-      console.log("🚀 ~ file: App.js ~ line 50 ~ userList.forEach ~ userFullName", userFullName);
-      const nameToLower = userFullName.toLowerCase;
-      console.log(userFullName.toLowerCase().includes(searchTerm.toLowerCase()));
+  //   // FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:FIXME:
+  //   const filteredUserList = [];
+  //   userList.forEach((user) => {
+  //     const userFullName = user.name;
+  //     console.log("🚀 ~ file: App.js ~ line 50 ~ userList.forEach ~ userFullName", userFullName);
+  //     const nameToLower = userFullName.toLowerCase;
+  //     console.log(userFullName.toLowerCase().includes(searchTerm.toLowerCase()));
 
-      const searchTermToLower = searchTerm.toLowerCase;
-      if (nameToLower.includes(searchTermToLower)) {
-        filteredUserList.push(user);
-      }
-    });
-    console.log("🚀 ~ file: App.js ~ line 34 ~ filteredUserList ~ filteredUserList", filteredUserList);
-    //TODO: Then just map the filtered list in the render funciton instead of userList...gg
-  }
+  //     const searchTermToLower = searchTerm.toLowerCase;
+  //     if (nameToLower.includes(searchTermToLower)) {
+  //       filteredUserList.push(user);
+  //     }
+  //   });
+  //   console.log("🚀 ~ file: App.js ~ line 34 ~ filteredUserList ~ filteredUserList", filteredUserList);
+  //   //TODO: Then just map the filtered list in the render funciton instead of userList...gg
+  // }
   return (
     <div>
       <header>
         <HeaderBar title="Employee Directory" icon="fas fa-user"></HeaderBar>
+        {/* moving this to the table  */}
         <div className="row bg-dark">
           <div className="col md-8">
             <h3 className="text-secondary mx-auto py-4 px-4">Click on the column header to sort users</h3>
